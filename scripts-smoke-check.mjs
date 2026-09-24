@@ -12,10 +12,14 @@ const checks = [
   { path: "/dashboard", expected: [200, 301, 302, 307, 308] }
 ];
 
+const serverOutput = [];
+const serverErrors = [];
 const server = spawn(npm, ["start", "--", "-p", "3000"], {
   stdio: ["ignore", "pipe", "pipe"],
   env: { ...process.env, NODE_ENV: "production", PORT: "3000" }
 });
+server.stdout?.on("data", chunk => serverOutput.push(String(chunk)));
+server.stderr?.on("data", chunk => serverErrors.push(String(chunk)));
 
 let ready = false;
 try {
@@ -30,7 +34,13 @@ try {
     await new Promise(resolve => setTimeout(resolve, 1000));
   }
 
-  if (!ready) throw new Error("El servidor de producción no respondió dentro del tiempo esperado.");
+  if (!ready) {
+    throw new Error(
+      "El servidor de producción no respondió dentro del tiempo esperado.\n" +
+      "STDOUT:\n" + serverOutput.join("") +
+      "\nSTDERR:\n" + serverErrors.join("")
+    );
+  }
 
   for (const check of checks) {
     const response = await fetch(baseUrl + check.path, { redirect: "manual" });

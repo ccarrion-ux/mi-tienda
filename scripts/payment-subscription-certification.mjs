@@ -53,7 +53,7 @@ for (const key of requiredEnv) {
 
 const checks = [
   ["Flow firma HMAC", "src/lib/flow.ts", "createHmac"],
-  ["Flow suscripciones", "src/lib/flow-saas.ts", "/subscription/"],
+  ["Flow capa SaaS", "src/lib/flow-saas.ts", "flowSaaSPost"],
   ["Flow registro cliente", "src/app/api/subscription/checkout/route.ts", "/customer/register"],
   ["Flow creación suscripción", "src/app/api/subscription/checkout/route.ts", "/subscription/create"],
   ["Flow cambio de plan", "src/app/api/subscription/change-plan/route.ts", "/subscription/changePlan"],

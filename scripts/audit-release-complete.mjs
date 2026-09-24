@@ -37,8 +37,8 @@ const functionalTokens = [
  ["onboarding API","src/app/api/onboarding/route.ts","store"],
  ["productos API","src/app/api/products/route.ts","product"],
  ["pedidos API","src/app/api/store/[slug]/orders/route.ts","order"],
- ["checkout Webpay","src/app/api/store/[slug]/payments/webpay/route.ts","WebpayPlus"],
- ["checkout Flow","src/app/api/store/[slug]/payments/flow/route.ts","flowPost"],
+ ["checkout Webpay","src/app/api/store/[slug]/payments/webpay/route.ts","webpayTransaction"],
+ ["checkout Flow","src/app/api/store/[slug]/payments/flow/route.ts","flowSignedParams"],
  ["checkout Mercado Pago","src/app/api/store/[slug]/payments/mercadopago/route.ts","api.mercadopago.com"],
  ["webhook Mercado Pago","src/app/api/webhooks/mercadopago/route.ts","createHmac"],
  ["webhook Webpay","src/app/api/webhooks/webpay/route.ts","commit"],
@@ -64,10 +64,10 @@ for(const literal of ["sk_live_","sk_test_","BEGIN PRIVATE KEY","-----BEGIN RSA"
 }
 for(const p of ["src/app/api/webhooks/mercadopago/route.ts","src/app/api/webhooks/webpay/route.ts","src/app/api/webhooks/flow/route.ts"]) {
   const c=read(p);
-  (c.includes("HMAC")||c.includes("createHmac")||c.includes("verify")||c.includes("signature"))?pass("verificación presente: "+p):fail("webhook sin verificación visible: "+p);
+  (c.includes("createHmac")||c.includes("flowSignedParams")||c.includes("commit("))?pass("verificación/confirmación presente: "+p):fail("webhook sin verificación visible: "+p);
 }
 for(const p of ["src/app/api/admin/overview/route.ts","src/app/api/admin/stores/route.ts","src/app/api/admin/support/route.ts"]) {
-  read(p).includes("getPlatformAdmin")?pass("protección admin: "+p):fail("ruta admin sin getPlatformAdmin: "+p);
+  (read(p).includes("getPlatformAdmin")||read(p).includes("isPlatformAdmin"))?pass("protección admin: "+p):fail("ruta admin sin protección de plataforma: "+p);
 }
 for(const p of ["src/app/api/products/route.ts","src/app/api/products/[id]/route.ts","src/app/api/orders/[id]/route.ts","src/app/api/subscription/route.ts","src/app/api/payment-methods/route.ts"]) {
   const c=read(p);

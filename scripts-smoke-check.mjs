@@ -25,12 +25,34 @@ const checks = [
 const serverOutput = [];
 const serverErrors = [];
 const server = spawn(npm, ["start", "--", "-p", "3000"], {
+  detached: process.platform !== "win32",
   stdio: ["ignore", "pipe", "pipe"],
   env: { ...process.env, NODE_ENV: "production", PORT: "3000" }
 });
 
 server.stdout?.on("data", chunk => serverOutput.push(String(chunk)));
 server.stderr?.on("data", chunk => serverErrors.push(String(chunk)));
+
+const stopServer = async () => {
+  if (server.exitCode !== null) return;
+  try {
+    if (process.platform !== "win32" && server.pid) {
+      process.kill(-server.pid, "SIGTERM");
+    } else {
+      server.kill("SIGTERM");
+    }
+  } catch {}
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  if (server.exitCode === null) {
+    try {
+      if (process.platform !== "win32" && server.pid) {
+        process.kill(-server.pid, "SIGKILL");
+      } else {
+        server.kill("SIGKILL");
+      }
+    } catch {}
+  }
+};
 
 let ready = false;
 try {
@@ -63,6 +85,5 @@ try {
 
   console.log("SMOKE TEST: PASS");
 } finally {
-  server.kill("SIGTERM");
-  setTimeout(() => server.kill("SIGKILL"), 2000).unref();
+  await stopServer();
 }

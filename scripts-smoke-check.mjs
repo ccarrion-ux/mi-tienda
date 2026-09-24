@@ -3,7 +3,17 @@ import { spawn } from "node:child_process";
 const npm = process.platform === "win32" ? "npm.cmd" : "npm";
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
-const request = async (path) => {\n  const controller = new AbortController();\n  const timer = setTimeout(() => controller.abort(), 5000);\n  try { return await fetch(baseUrl + path, { redirect: "manual", signal: controller.signal }); }\n  finally { clearTimeout(timer); }\n};\n\nconst checks = [
+const request = async (path) => {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 5000);
+  try {
+    return await fetch(baseUrl + path, { redirect: "manual", signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+};
+
+const checks = [
   { path: "/", expected: [200] },
   { path: "/login", expected: [200] },
   { path: "/legal/terminos", expected: [200] },
@@ -18,6 +28,7 @@ const server = spawn(npm, ["start", "--", "-p", "3000"], {
   stdio: ["ignore", "pipe", "pipe"],
   env: { ...process.env, NODE_ENV: "production", PORT: "3000" }
 });
+
 server.stdout?.on("data", chunk => serverOutput.push(String(chunk)));
 server.stderr?.on("data", chunk => serverErrors.push(String(chunk)));
 

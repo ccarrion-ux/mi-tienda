@@ -4,8 +4,6 @@ import { prisma } from "@/lib/prisma";
 import { getSessionUserId } from "@/lib/auth";
 import { getActiveStoreId } from "@/lib/store-context";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
 export async function POST(req: Request) {
   try {
     const userId = await getSessionUserId();
@@ -44,6 +42,10 @@ export async function POST(req: Request) {
       })),
     };
 
+    if (!process.env.OPENAI_API_KEY) {
+      return NextResponse.json({ error: "Falta OPENAI_API_KEY. Configúrala para activar la IA." }, { status: 503 });
+    }
+    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
     const model = process.env.OPENAI_MODEL || "gpt-5.6-luna";
     const response = await openai.responses.create({
       model,

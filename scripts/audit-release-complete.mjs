@@ -54,12 +54,12 @@ if(routes.length<50) fail("cantidad de rutas API menor a 50");
 
 console.log("=== #44 AUDITORÍA DE SEGURIDAD ===");
 const authLib=read("src/lib/auth.ts");
-authLib.includes("httpOnly: true")&&authLib.includes("sameSite: "lax"")?pass("sesión con cookie httpOnly/sameSite"):fail("cookie de sesión sin endurecimiento esperado");
+authLib.includes("httpOnly: true")&&authLib.includes('sameSite: "lax"')?pass("sesión con cookie httpOnly/sameSite"):fail("cookie de sesión sin endurecimiento esperado");
 authLib.includes("jwtVerify")?pass("sesión verifica JWT"):fail("sesión sin verificación JWT");
 read("src/lib/store-context.ts").includes("ownerId: userId")?pass("aislamiento por ownerId en contexto de tienda"):fail("contexto de tienda no filtra ownerId");
 const securityFiles = routes.filter(p=>p.includes("/api/"));
 const source = securityFiles.map(read).join("\n");
-for(const literal of ["sk_live_","sk_test_","BEGIN PRIVATE KEY","-----BEGIN RSA","password="","DATABASE_URL="postgresql://"]) {
+for(const literal of ["sk_live_","sk_test_","BEGIN PRIVATE KEY","-----BEGIN RSA",'password="','DATABASE_URL="postgresql://']) {
   source.includes(literal)?fail("posible secreto literal: "+literal):pass("sin literal de secreto: "+literal);
 }
 for(const p of ["src/app/api/webhooks/mercadopago/route.ts","src/app/api/webhooks/webpay/route.ts","src/app/api/webhooks/flow/route.ts"]) {

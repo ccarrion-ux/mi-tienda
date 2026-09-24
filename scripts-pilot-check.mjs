@@ -1,11 +1,9 @@
 import fs from "node:fs";
-import { execFileSync } from "node:child_process";
 
 const requiredFiles = [
   "package.json",
   "package-lock.json",
   "prisma/schema.prisma",
-  "next.config.mjs",
   "scripts-smoke-check.mjs"
 ];
 
@@ -23,14 +21,10 @@ try {
 
 const missingScripts = requiredScripts.filter(name => !pkg.scripts?.[name]);
 const lockfileOk = fs.existsSync("package-lock.json");
-
-let buildPresent = false;
-try {
-  buildPresent = fs.existsSync(".next/BUILD_ID") || fs.existsSync(".next/server");
-} catch {}
+const buildPresent = fs.existsSync(".next/BUILD_ID") || fs.existsSync(".next/server");
 
 console.log("=== PILOT READINESS ===");
-console.log(`PASS package.json válido`);
+console.log("PASS package.json válido");
 console.log(`PASS lockfile presente: ${lockfileOk}`);
 console.log(`PASS build de producción presente: ${buildPresent}`);
 

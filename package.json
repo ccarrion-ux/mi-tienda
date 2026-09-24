@@ -32,7 +32,8 @@
     "regression:static": "node scripts/final-regression-static.mjs",
     "bootstrap:certify": "node scripts/bootstrap-and-certify.mjs",
     "audit:integral": "node scripts/audit-integral.mjs",
-    "certify:100": "node scripts/certify-install-build.mjs"
+    "certify:100": "node scripts/certify-install-build.mjs",
+    "certify:payments": "node scripts/payment-subscription-certification.mjs"
   },
   "dependencies": {
     "@prisma/client": "6.19.3",

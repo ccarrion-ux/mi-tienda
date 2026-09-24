@@ -4,8 +4,6 @@ import { getSessionUserId } from "@/lib/auth";
 import { getActiveStoreId } from "@/lib/store-context";
 import { prisma } from "@/lib/prisma";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
 export async function POST(req: Request) {
   const userId = await getSessionUserId();
   if (!userId) return NextResponse.json({ error: "No autenticado" }, { status: 401 });
@@ -29,6 +27,10 @@ export async function POST(req: Request) {
   const pendingOrders = store.orders.filter(o => o.status === "PENDING").length;
   const sales = store.orders.filter(o => o.status !== "CANCELLED").reduce((s,o) => s + Number(o.total), 0);
 
+  if (!process.env.OPENAI_API_KEY) {
+    return NextResponse.json({ error: "Falta OPENAI_API_KEY. Configúrala para activar la IA." }, { status: 503 });
+  }
+  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   const model = process.env.OPENAI_MODEL || "gpt-5.6-luna";
   const response = await openai.responses.create({
     model,

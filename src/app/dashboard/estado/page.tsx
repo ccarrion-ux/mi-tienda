@@ -1,0 +1,7 @@
+"use client";
+import { useEffect, useState } from "react";
+export default function EstadoPage(){
+ const [data,setData]=useState<any>(null); const [error,setError]=useState("");
+ useEffect(()=>{fetch("/api/health").then(async r=>{const j=await r.json();setData(j);if(!r.ok)setError("Hay configuraciones pendientes para producción.")}).catch(()=>setError("No se pudo consultar el estado."))},[]);
+ return <main className="page"><a href="/dashboard">← Dashboard</a><h1>Estado de producción</h1><p>Chequeo básico de infraestructura y variables críticas.</p>{error&&<div className="alert">{error}</div>}{data&&<div className="card"><div><b>Estado general:</b> {data.ok?"Listo":"Revisión necesaria"}</div><pre>{JSON.stringify(data.checks,null,2)}</pre></div>}<div className="card"><h2>Antes de lanzar</h2><ul><li>Usar AUTH_SECRET fuerte y único.</li><li>Configurar HTTPS y NEXT_PUBLIC_APP_URL.</li><li>Ejecutar migraciones Prisma en producción.</li><li>Configurar backups automáticos de PostgreSQL.</li><li>Configurar webhooks de pagos y monitoreo.</li><li>Definir proveedor real de facturación recurrente SaaS.</li></ul></div><style jsx>{`.page{max-width:900px;margin:auto;padding:32px 20px;font-family:Arial;color:#17202a}.card{border:1px solid #e4e7ec;border-radius:14px;padding:20px;margin-top:18px}pre{background:#f6f8fa;padding:15px;border-radius:10px}.alert{margin-top:15px;padding:12px;border:1px solid #f0b5b5;border-radius:10px;background:#fff5f5}`}</style></main>
+}

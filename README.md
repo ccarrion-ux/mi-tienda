@@ -1,2 +1,0 @@
-# mi-tienda
-mi-tienda 

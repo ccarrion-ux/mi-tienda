@@ -1,0 +1,61 @@
+{
+  "name": "mi-tienda",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "lint:check": "eslint .",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:studio": "prisma studio",
+    "smoke": "node scripts-smoke-check.mjs",
+    "typecheck": "tsc --noEmit",
+    "pilot:check": "node scripts-pilot-check.mjs",
+    "check:multistore": "node scripts/check-multistore.mjs",
+    "audit:active-store": "node scripts/audit-active-store.mjs",
+    "postinstall": "prisma generate",
+    "validate:production": "node scripts/validate-production.mjs",
+    "audit:store-isolation": "node scripts/audit-store-isolation.mjs",
+    "test:multistore:static": "node scripts/test-multistore-static.mjs",
+    "test:multistore": "node scripts/test-multistore-integration.mjs",
+    "validation:matrix": "node scripts/validation-matrix.mjs",
+    "env:preflight": "node scripts/environment-preflight.mjs",
+    "lockfile:prepare": "npm install --package-lock-only --ignore-scripts --no-audit --no-fund",
+    "validate:all": "node scripts/validate-all.mjs",
+    "audit:release:static": "node scripts/audit-release-static.mjs",
+    "certify:build": "node scripts/certify-install-build.mjs",
+    "check:lockfile": "node scripts/check-lockfile.mjs",
+    "certification:manifest": "node scripts/certification-manifest.mjs",
+    "regression:static": "node scripts/final-regression-static.mjs",
+    "bootstrap:certify": "node scripts/bootstrap-and-certify.mjs",
+    "audit:integral": "node scripts/audit-integral.mjs",
+    "certify:100": "node scripts/certify-install-build.mjs"
+  },
+  "dependencies": {
+    "@prisma/client": "6.19.3",
+    "next": "15.5.7",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
+    "bcryptjs": "3.0.2",
+    "jose": "6.0.11",
+    "transbank-sdk": "6.0.0",
+    "openai": "6.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.0",
+    "@types/react": "19.1.0",
+    "@types/react-dom": "19.1.0",
+    "prisma": "6.19.3",
+    "typescript": "5.9.2",
+    "eslint": "9.34.0",
+    "eslint-config-next": "15.5.0"
+  },
+  "engines": {
+    "node": ">=22.16.0 <23",
+    "npm": ">=10.9.0 <11"
+  },
+  "packageManager": "npm@10.9.2"
+}

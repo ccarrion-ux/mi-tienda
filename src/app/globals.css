@@ -586,3 +586,23 @@ button { cursor: pointer; }
 .mt-activity-head { display:flex; justify-content:space-between; gap:12px; align-items:center; }
 .mt-activity-main small { color:#8a94a6; }
 .mt-activity-main p { margin:5px 0 0; color:#667085; font-size:13px; }
+
+
+/* Fase 22 — Responsive real para carrito público */
+.mt-cart-item { display:grid; grid-template-columns:70px minmax(0,1fr) auto auto; gap:16px; align-items:center; padding:16px 0; border-bottom:1px solid #eee; }
+.mt-cart-item > div { min-width:0; }
+.mt-cart-price { white-space:nowrap; }
+@media (max-width: 620px) {
+  .mt-cart-item { grid-template-columns:56px minmax(0,1fr); gap:10px; align-items:start; }
+  .mt-cart-item img, .mt-cart-item > div:first-child { width:56px !important; height:56px !important; }
+  .mt-cart-qty { grid-column:2; width:90px !important; margin:0 !important; }
+  .mt-cart-price { grid-column:2; justify-self:start; font-size:14px; }
+  .mt-checkout-layout { grid-template-columns:1fr; }
+  .mt-checkout-summary { position:static; order:-1; }
+}
+@media (max-width: 420px) {
+  .mt-checkout-layout { gap:14px; }
+  .mt-checkout-layout .card { padding:17px; }
+  .mt-cart-item { grid-template-columns:50px minmax(0,1fr); }
+  .mt-cart-item img, .mt-cart-item > div:first-child { width:50px !important; height:50px !important; }
+}

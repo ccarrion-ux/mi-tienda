@@ -15,6 +15,7 @@ export async function GET() {
 export async function POST(req: Request) {
   const userId = await getSessionUserId();
   if (!userId) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+  const activeStoreId = await getActiveStoreId(userId);
   const store = await prisma.store.findFirst({ where: { id: activeStoreId } });
   if (!store) return NextResponse.json({ error: "Tienda no encontrada" }, { status: 404 });
   const body = await req.json().catch(() => ({}));

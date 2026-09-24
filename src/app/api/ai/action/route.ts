@@ -4,8 +4,6 @@ import { prisma } from "@/lib/prisma";
 import { getSessionUserId } from "@/lib/auth";
 import { getActiveStoreId } from "@/lib/store-context";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
 function slugify(value: string) {
   return value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 70);
@@ -29,6 +27,10 @@ export async function POST(req: Request) {
   const store = user?.stores.find(s => s.id === activeStoreId);
     if (!store) return NextResponse.json({ error: "No tienes una tienda." }, { status: 400 });
 
+    if (!process.env.OPENAI_API_KEY) {
+      return NextResponse.json({ error: "Falta OPENAI_API_KEY. Configúrala para activar la IA." }, { status: 503 });
+    }
+    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
     const model = process.env.OPENAI_MODEL || "gpt-5.6-luna";
     const response = await openai.responses.create({
       model,

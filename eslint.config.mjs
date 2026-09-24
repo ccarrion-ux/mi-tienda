@@ -1,9 +1,11 @@
-import tsParser from "eslint-config-next/parser.js";
+import tsParser from "@typescript-eslint/parser";
 
 export default [
   {
-    files: ["**/*.{js,mjs,cjs,ts,tsx}"],
-    ignores: ["node_modules/**", ".next/**", "out/**", "build/**", "next-env.d.ts"],
+    ignores: ["node_modules/**", ".next/**", "out/**", "build/**", "next-env.d.ts", "**/*.mjs", "**/*.js", "**/*.cjs"],
+  },
+  {
+    files: ["**/*.ts", "**/*.tsx"],
     languageOptions: {
       parser: tsParser
     },

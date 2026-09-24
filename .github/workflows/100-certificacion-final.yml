@@ -42,7 +42,7 @@ jobs:
         with:
           node-version: 22.16.0
           registry-url: https://registry.npmjs.org
-          # No npm cache here: the lockfile may not exist on the first certification run.
+          package-manager-cache: false
 
       - name: Generate lockfile if missing
         run: |

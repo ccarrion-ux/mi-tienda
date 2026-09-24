@@ -12,7 +12,7 @@ export default function AccionesPage() {
   const [loading, setLoading] = useState(true);
 
   const load = () => fetch("/api/acciones").then(r => r.json()).then(d => setActions(d.actions || [])).finally(() => setLoading(false));
-  useEffect(load, []);
+  useEffect(() => { void load(); }, []);
 
   async function complete(id: string) {
     await fetch("/api/acciones", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id }) });

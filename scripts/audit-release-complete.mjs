@@ -101,9 +101,9 @@ const layout = read("src/app/layout.tsx");
 layout.includes("viewport")||layout.includes("metadata")?pass("layout define metadata/estructura global"):warn("revisar metadata global");
 css.includes("@media")?pass("CSS incluye breakpoints responsive"):warn("no se detectaron @media; revisar responsive");
 const checkout=read("src/app/tienda/[slug]/checkout/page.tsx");
-checkout.includes("gridTemplateColumns: "1fr 360px"")?warn("checkout tiene columna fija de 360px: requiere verificación visual en móvil"):pass("checkout sin columna fija detectada");
+checkout.includes('gridTemplateColumns: "1fr 360px"')?warn("checkout tiene columna fija de 360px: requiere verificación visual en móvil"):pass("checkout sin columna fija detectada");
 const cart=read("src/app/tienda/[slug]/carrito/page.tsx");
-cart.includes("gridTemplateColumns: "70px 1fr auto auto"")?warn("carrito usa grid de 4 columnas: requiere verificación visual en móvil"):pass("carrito sin grid fijo detectado");
+cart.includes('gridTemplateColumns: "70px 1fr auto auto"')?warn("carrito usa grid de 4 columnas: requiere verificación visual en móvil"):pass("carrito sin grid fijo detectado");
 pass("revisión estática UX completada; la validación visual real requiere navegador/dispositivo");
 
 console.log("=== #47 PREPARACIÓN DE PRODUCCIÓN ===");

@@ -1,0 +1,119 @@
+name: Mi Tienda - 100% Certification
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+env:
+  DATABASE_URL: postgresql://postgres:postgres@localhost:5432/mi_tienda_cert
+  AUTH_SECRET: ci-certification-secret
+  NEXT_PUBLIC_APP_URL: http://localhost:3000
+  NODE_ENV: test
+
+jobs:
+  certify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: mi_tienda_cert
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d mi_tienda_cert"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.16.0
+          registry-url: https://registry.npmjs.org
+          # No npm cache here: the lockfile may not exist on the first certification run.
+
+      - name: Generate lockfile if missing
+        run: |
+          if [ ! -f package-lock.json ]; then
+            npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+          fi
+          test -f package-lock.json
+          npm ci --ignore-scripts --dry-run --no-audit --no-fund
+
+      - name: Install exact dependency tree
+        run: npm ci --no-audit --no-fund
+
+      - name: Prisma validate
+        run: npx prisma@6.19.3 validate
+
+      - name: Prisma generate
+        run: npx prisma@6.19.3 generate
+
+      - name: Prisma database schema
+        run: npx prisma@6.19.3 db push --skip-generate
+
+      - name: Static and security audits
+        run: |
+          npm run audit:integral
+          npm run check:multistore
+          npm run audit:active-store
+          npm run audit:store-isolation
+          npm run audit:release:static
+          npm run regression:static
+
+      - name: TypeScript
+        run: npm run typecheck
+
+      - name: ESLint
+        run: npm run lint:check
+
+      - name: Next production build
+        run: npm run build
+
+      - name: Smoke tests
+        run: npm run smoke
+
+      - name: Pilot readiness
+        run: npm run pilot:check
+
+      - name: Create certification evidence
+        if: always()
+        run: |
+          mkdir -p certification-evidence
+          node scripts/certification-manifest.mjs > certification-evidence/manifest.txt || true
+          node scripts/audit-integral.mjs > certification-evidence/audit-integral.txt || true
+          node scripts/final-regression-static.mjs > certification-evidence/final-regression.txt || true
+          git status --short > certification-evidence/git-status.txt
+
+      - name: Commit generated lockfile only after all checks pass
+        if: success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json
+          if git diff --cached --quiet; then
+            echo "Lockfile already committed."
+          else
+            git commit -m "chore: add reproducible npm lockfile"
+            git push
+          fi
+
+      - name: Upload certification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mi-tienda-100-certification-evidence
+          path: certification-evidence
+          if-no-files-found: warn

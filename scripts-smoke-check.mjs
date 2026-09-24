@@ -3,7 +3,7 @@ import { spawn } from "node:child_process";
 const npm = process.platform === "win32" ? "npm.cmd" : "npm";
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
-const checks = [
+const request = async (path) => {\n  const controller = new AbortController();\n  const timer = setTimeout(() => controller.abort(), 5000);\n  try { return await fetch(baseUrl + path, { redirect: "manual", signal: controller.signal }); }\n  finally { clearTimeout(timer); }\n};\n\nconst checks = [
   { path: "/", expected: [200] },
   { path: "/login", expected: [200] },
   { path: "/legal/terminos", expected: [200] },
@@ -25,7 +25,7 @@ let ready = false;
 try {
   for (let attempt = 1; attempt <= 30; attempt++) {
     try {
-      const response = await fetch(baseUrl + "/", { redirect: "manual" });
+      const response = await request("/");
       if (response.status >= 200 && response.status < 500) {
         ready = true;
         break;
@@ -43,7 +43,7 @@ try {
   }
 
   for (const check of checks) {
-    const response = await fetch(baseUrl + check.path, { redirect: "manual" });
+    const response = await request(check.path);
     if (!check.expected.includes(response.status)) {
       throw new Error(`Smoke FAIL ${check.path}: HTTP ${response.status}; esperado ${check.expected.join(", ")}`);
     }

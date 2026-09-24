@@ -5,6 +5,10 @@ on:
   push:
     branches: [main]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
 
@@ -17,7 +21,7 @@ env:
 jobs:
   certify:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 30
     services:
       postgres:
         image: postgres:16
@@ -83,10 +87,10 @@ jobs:
         run: npm run build
 
       - name: Smoke tests
-        run: npm run smoke
+        run: timeout --signal=TERM --kill-after=10s 120s npm run smoke
 
       - name: Pilot readiness
-        run: npm run pilot:check
+        run: timeout --signal=TERM --kill-after=10s 120s npm run pilot:check
 
       - name: Create certification evidence
         if: always()

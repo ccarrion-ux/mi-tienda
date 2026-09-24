@@ -12,7 +12,7 @@ export default async function ProductosPage() {
   const store = activeStore ? await prisma.store.findUnique({
     where: { id: activeStore.id },
     include: { products: { orderBy: { createdAt: "desc" }, include: { category: true } } }
-  });
+  }) : null;
 
   if (!store) redirect("/dashboard");
 

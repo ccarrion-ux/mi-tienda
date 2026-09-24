@@ -161,7 +161,7 @@ export default function Checkout({ params }: { params: Promise<{ slug: string }>
       <Link href={`/tienda/${slug}/carrito`} style={{ textDecoration: "underline" }}>← Volver al carrito</Link>
       <h1>Finalizar compra</h1>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 360px", gap: 24 }}>
+      <div className="mt-checkout-layout">
         <form className="card" onSubmit={submit}>
           <h2>Datos de contacto</h2>
           <label className="label">Nombre completo</label>
@@ -212,7 +212,7 @@ export default function Checkout({ params }: { params: Promise<{ slug: string }>
           </button>
         </form>
 
-        <aside className="card" style={{ height: "fit-content" }}>
+        <aside className="card mt-checkout-summary">
           <h2>Resumen</h2>
           {items.map((i, n) => (
             <div key={n} style={{ display: "flex", justifyContent: "space-between", padding: "10px 0", borderBottom: "1px solid #eee", gap: 12 }}>

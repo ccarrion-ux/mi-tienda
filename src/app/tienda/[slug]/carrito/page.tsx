@@ -41,11 +41,11 @@ export default function CartPage({ params }: { params: Promise<{ slug: string }>
         <>
           <div className="card">
             {items.map((item, index) => (
-              <div key={`${item.productId}-${item.variantId}`} style={{ display: "grid", gridTemplateColumns: "70px 1fr auto auto", gap: 16, alignItems: "center", padding: "16px 0", borderBottom: "1px solid #eee" }}>
+              <div key={`${item.productId}-${item.variantId}`} className="mt-cart-item">
                 {item.imageUrl ? <img src={item.imageUrl} alt="" style={{ width: 70, height: 70, objectFit: "cover", borderRadius: 8 }} /> : <div style={{ width: 70, height: 70, background: "#eef0f3", borderRadius: 8 }} />}
                 <div><strong>{item.name}</strong>{item.variantName && <div style={{ color: "#6b7280", fontSize: 13 }}>{item.variantName}</div>}</div>
-                <input className="input" style={{ width: 80, margin: 0 }} type="number" min="0" value={item.quantity} onChange={e => update(index, Number(e.target.value))} />
-                <strong>${(item.price * item.quantity).toLocaleString("es-CL")}</strong>
+                <input className="input mt-cart-qty" style={{ width: 80, margin: 0 }} type="number" min="0" value={item.quantity} onChange={e => update(index, Number(e.target.value))} />
+                <strong className="mt-cart-price">${(item.price * item.quantity).toLocaleString("es-CL")}</strong>
               </div>
             ))}
             <div style={{ textAlign: "right", paddingTop: 22, fontSize: 22 }}><strong>Total: ${total.toLocaleString("es-CL")}</strong></div>

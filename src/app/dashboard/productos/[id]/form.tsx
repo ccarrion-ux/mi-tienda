@@ -2,8 +2,6 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import VariantManager from "./variantes";
-
 type Props = {
   product: { id: string; name: string; description: string; price: number; stock: number; sku: string; imageUrl: string; categoryId: string; active: boolean };
   categories: { id: string; name: string }[];
@@ -176,7 +174,6 @@ export default function EditProductForm({ product, categories }: Props) {
           </div>
         </form>
       </div>
-      <VariantManager productId={product.id} />
     </main>
   );
 }

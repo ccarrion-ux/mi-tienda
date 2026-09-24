@@ -10,7 +10,7 @@ export async function POST(
   try {
     const body = await req.json();
     const customer = body.customer || {};
-    const items = Array.isArray(body.items) ? body.items : [];
+    const items: any[] = Array.isArray(body.items) ? body.items : [];
     const shippingMethodId = body.shippingMethodId ? String(body.shippingMethodId) : null;
     const paymentMethod = String(body.paymentMethod || "TRANSFER");
 

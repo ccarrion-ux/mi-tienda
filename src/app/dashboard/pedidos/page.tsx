@@ -13,7 +13,7 @@ export default async function PedidosPage() {
   const store = activeStore ? await prisma.store.findUnique({
     where: { id: activeStore.id },
     include: { orders: { include: { customer: true, items: true }, orderBy: { createdAt: "desc" } } }
-  });
+  }) : null;
   if (!store) redirect("/dashboard");
 
   return (

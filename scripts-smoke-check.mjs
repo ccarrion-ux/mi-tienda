@@ -13,8 +13,8 @@ const checks = [
 ];
 
 const server = spawn(npm, ["start", "--", "-p", "3000"], {
-  stdio: "ignore",
-  env: { ...process.env, PORT: "3000" }
+  stdio: ["ignore", "pipe", "pipe"],
+  env: { ...process.env, NODE_ENV: "production", PORT: "3000" }
 });
 
 let ready = false;

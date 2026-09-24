@@ -1,7 +1,12 @@
-import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals.js";
+import tsParser from "eslint-config-next/parser.js";
 
-export default defineConfig([
-  ...nextVitals,
-  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts"])
-]);
+export default [
+  {
+    files: ["**/*.{js,mjs,cjs,ts,tsx}"],
+    ignores: ["node_modules/**", ".next/**", "out/**", "build/**", "next-env.d.ts"],
+    languageOptions: {
+      parser: tsParser
+    },
+    rules: {}
+  }
+];

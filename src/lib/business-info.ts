@@ -71,7 +71,8 @@ export function validateBusinessInfo(input: BusinessInfoInput) {
 
   if (input.businessName.length < 2) errors.businessName = "Ingresa el nombre del negocio.";
   if (input.businessType.length < 2) errors.businessType = "Indica el tipo de negocio.";
-  if (input.contactEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.contactEmail)) {
+  if (!input.contactEmail) errors.contactEmail = "Ingresa un correo de contacto.";
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.contactEmail)) {
     errors.contactEmail = "Ingresa un correo válido.";
   }
   if (input.phone && !/^[+()\d\s.-]{7,30}$/.test(input.phone)) {

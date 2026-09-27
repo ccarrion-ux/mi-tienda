@@ -93,6 +93,18 @@ model Store {
   subscription Subscription?
   status              StoreStatus         @default(ACTIVE)
   suspendedAt         DateTime?
+  businessName       String?
+  businessType       String?
+  businessDescription String?
+  contactEmail       String?
+  phone              String?
+  website            String?
+  rut                String?
+  country            String?             @default("Chile")
+  region             String?
+  commune            String?
+  address            String?
+  businessInfoCompletedAt DateTime?
   domains             StoreDomain[]
   supportTickets      SupportTicket[]
   aiActivity           AIActivityLog[]

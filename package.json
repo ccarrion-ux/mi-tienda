@@ -34,6 +34,7 @@
     "audit:integral": "node scripts/audit-integral.mjs",
     "certify:100": "node scripts/certify-install-build.mjs",
     "certify:payments": "node scripts/payment-subscription-certification.mjs",
+    "certify:onboarding:business": "node scripts/certify-onboarding-business.mjs",
     "certify:webpay:integration": "node scripts/webpay-integration-create.mjs",
     "certify:mercadopago:integration": "node scripts/mercadopago-integration-create.mjs",
     "audit:release:complete": "node scripts/audit-release-complete.mjs",

@@ -17,6 +17,9 @@ env:
   AUTH_SECRET: ci-certification-secret
   NEXT_PUBLIC_APP_URL: http://localhost:3000
   NODE_ENV: test
+  WEBPAY_COMMERCE_CODE: ${{ secrets.WEBPAY_COMMERCE_CODE }}
+  WEBPAY_API_KEY: ${{ secrets.WEBPAY_API_KEY }}
+  WEBPAY_ENV: ${{ vars.WEBPAY_ENV }}
 
 jobs:
   certify:

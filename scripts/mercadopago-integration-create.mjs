@@ -29,7 +29,7 @@ async function main() {
     body: JSON.stringify({
       type: "online",
       processing_mode: "manual",
-      total_amount: "1000.00",
+      total_amount: "1000",
       external_reference: externalReference,
       payer: {
         email: "test@testuser.com"
@@ -38,9 +38,7 @@ async function main() {
         {
           title: "Mi Tienda - prueba de integración",
           quantity: 1,
-          unit_price: "1000.00",
-          total_amount: "1000.00",
-          unit_measure: "unit"
+          unit_price: "1000"
         }
       ]
     })

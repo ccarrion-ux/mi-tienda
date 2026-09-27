@@ -1,4 +1,4 @@
-import { webpayTransaction } from "../src/lib/webpay.ts";
+import { Environment, Options, WebpayPlus } from "transbank-sdk";
 
 function required(name) {
   const value = process.env[name];
@@ -7,15 +7,18 @@ function required(name) {
 }
 
 async function main() {
-  required("WEBPAY_COMMERCE_CODE");
-  required("WEBPAY_API_KEY");
-  required("WEBPAY_ENV");
+  const commerceCode = required("WEBPAY_COMMERCE_CODE");
+  const apiKey = required("WEBPAY_API_KEY");
+  const webpayEnv = required("WEBPAY_ENV");
 
-  if (process.env.WEBPAY_ENV !== "integration") {
+  if (webpayEnv !== "integration") {
     throw new Error("Esta prueba exige WEBPAY_ENV=integration.");
   }
 
-  const tx = webpayTransaction();
+  const tx = new WebpayPlus.Transaction(
+    new Options(commerceCode, apiKey, Environment.Integration)
+  );
+
   const suffix = Date.now().toString().slice(-8);
   const buyOrder = `MT-CI-${suffix}`.slice(0, 26);
   const sessionId = `MT-CI-${suffix}`;

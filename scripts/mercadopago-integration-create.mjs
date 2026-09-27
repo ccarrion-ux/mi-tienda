@@ -7,9 +7,12 @@ function required(name) {
 async function main() {
   const token = required("MERCADOPAGO_ACCESS_TOKEN");
 
-  if (!token.startsWith("APP_USR-")) {
+  // Mercado Pago utiliza distintos prefijos según la solución/credencial.
+  // Las credenciales de prueba documentadas actualmente pueden usar APP_USR
+  // y algunas integraciones existentes utilizan TEST.
+  if (!token.startsWith("APP_USR-") && !token.startsWith("TEST-")) {
     throw new Error(
-      "La prueba exige un Access Token de prueba de Mercado Pago con prefijo APP_USR-. No se usará un token de producción."
+      "El Access Token no tiene un prefijo de credencial de prueba reconocido (APP_USR- o TEST-). No se usará un token con otro formato."
     );
   }
 

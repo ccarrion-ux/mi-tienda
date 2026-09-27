@@ -81,6 +81,9 @@ jobs:
           npm run audit:release:static
           npm run regression:static
 
+      - name: Onboarding Step 1 - Business information certification
+        run: npm run certify:onboarding:business
+
       - name: Payment and subscription certification
         run: npm run certify:payments
 
@@ -118,6 +121,7 @@ jobs:
           node scripts/certification-manifest.mjs > certification-evidence/manifest.txt || true
           node scripts/audit-integral.mjs > certification-evidence/audit-integral.txt || true
           node scripts/final-regression-static.mjs > certification-evidence/final-regression.txt || true
+          npm run certify:onboarding:business > certification-evidence/onboarding-business.txt || true
           node scripts/payment-subscription-certification.mjs > certification-evidence/payment-subscription.txt || true
           npm run certify:webpay:integration > certification-evidence/webpay-integration.txt || true
           npm run certify:mercadopago:integration > certification-evidence/mercadopago-integration.txt || true

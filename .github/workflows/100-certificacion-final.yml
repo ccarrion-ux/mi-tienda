@@ -21,6 +21,9 @@ env:
   WEBPAY_API_KEY: ${{ secrets.WEBPAY_API_KEY }}
   WEBPAY_ENV: ${{ vars.WEBPAY_ENV }}
   MERCADOPAGO_ACCESS_TOKEN: ${{ secrets.MERCADOPAGO_ACCESS_TOKEN }}
+  FLOW_API_KEY: ${{ secrets.FLOW_API_KEY }}
+  FLOW_SECRET_KEY: ${{ secrets.FLOW_SECRET_KEY }}
+  FLOW_ENV: ${{ vars.FLOW_ENV }}
 
 jobs:
   certify:
@@ -93,6 +96,9 @@ jobs:
       - name: Mercado Pago real integration create
         run: npm run certify:mercadopago:integration
 
+      - name: Flow real integration create
+        run: npm run certify:flow:integration
+
       - name: Functional multi-store integration
         run: npm run test:multistore
 
@@ -125,6 +131,7 @@ jobs:
           node scripts/payment-subscription-certification.mjs > certification-evidence/payment-subscription.txt || true
           npm run certify:webpay:integration > certification-evidence/webpay-integration.txt || true
           npm run certify:mercadopago:integration > certification-evidence/mercadopago-integration.txt || true
+          npm run certify:flow:integration > certification-evidence/flow-integration.txt || true
           npm run audit:release:complete > certification-evidence/release-complete.txt || true
           git status --short > certification-evidence/git-status.txt
 

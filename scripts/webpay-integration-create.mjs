@@ -1,4 +1,7 @@
-import { Environment, Options, WebpayPlus } from "transbank-sdk";
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+const { Environment, Options, WebpayPlus } = require("transbank-sdk");
 
 function required(name) {
   const value = process.env[name];

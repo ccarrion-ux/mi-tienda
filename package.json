@@ -38,7 +38,8 @@
     "certify:webpay:integration": "node scripts/webpay-integration-create.mjs",
     "certify:mercadopago:integration": "node scripts/mercadopago-integration-create.mjs",
     "audit:release:complete": "node scripts/audit-release-complete.mjs",
-    "certify:final": "node scripts/audit-release-complete.mjs"
+    "certify:final": "node scripts/audit-release-complete.mjs",
+    "certify:flow:integration": "node scripts/flow-integration-create.mjs"
   },
   "dependencies": {
     "@prisma/client": "6.19.3",

@@ -83,6 +83,9 @@ jobs:
       - name: Payment and subscription certification
         run: npm run certify:payments
 
+      - name: Webpay real integration create
+        run: npm run certify:webpay:integration
+
       - name: Functional multi-store integration
         run: npm run test:multistore
 
@@ -112,6 +115,7 @@ jobs:
           node scripts/audit-integral.mjs > certification-evidence/audit-integral.txt || true
           node scripts/final-regression-static.mjs > certification-evidence/final-regression.txt || true
           node scripts/payment-subscription-certification.mjs > certification-evidence/payment-subscription.txt || true
+          npm run certify:webpay:integration > certification-evidence/webpay-integration.txt || true
           npm run audit:release:complete > certification-evidence/release-complete.txt || true
           git status --short > certification-evidence/git-status.txt
 

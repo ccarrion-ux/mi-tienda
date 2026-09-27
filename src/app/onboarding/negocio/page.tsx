@@ -136,7 +136,7 @@ export default function BusinessInformationPage() {
             </div>
 
             <div className="grid two">
-              <Field label="Correo de contacto *" name="contactEmail" type="email" value={form.contactEmail} error={errors.contactEmail} onChange={update} placeholder="contacto@t negocio.cl" />
+              <Field label="Correo de contacto *" name="contactEmail" type="email" value={form.contactEmail} error={errors.contactEmail} onChange={update} placeholder="contacto@tunegocio.cl" />
               <Field label="Teléfono" name="phone" value={form.phone} error={errors.phone} onChange={update} placeholder="+56 9 1234 5678" />
               <Field label="Sitio web" name="website" value={form.website} error={errors.website} onChange={update} placeholder="www.tunegocio.cl" />
               <Field label="RUT (opcional)" name="rut" value={form.rut} error={errors.rut} onChange={update} placeholder="12.345.678-9" />

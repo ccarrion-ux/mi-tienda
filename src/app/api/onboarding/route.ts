@@ -22,7 +22,7 @@ export async function GET() {
   if (!store) return NextResponse.json({ error: "Tienda no encontrada" }, { status: 404 });
 
   const checklist = [
-    { id: "store", title: "Crear tu tienda", done: true, href: "/dashboard" },
+    { id: "business", title: "Información del negocio", done: !!store.businessInfoCompletedAt, href: "/onboarding/negocio" },
     { id: "design", title: "Personalizar el diseño", done: !!store.theme, href: "/dashboard/diseno" },
     { id: "products", title: "Agregar tu primer producto", done: store.products.length > 0, href: "/dashboard/productos/nuevo" },
     { id: "category", title: "Crear una categoría", done: store.categories.length > 0, href: "/dashboard/categorias" },
